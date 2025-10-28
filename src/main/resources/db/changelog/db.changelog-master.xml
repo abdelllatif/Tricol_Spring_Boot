@@ -3,7 +3,13 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
     <include file="V1__create_fournisseurs_table.sql" relativeToChangelogFile="true"/>
+    <include file="V1__update_fournisseurs_table.sql" relativeToChangelogFile="true"/>
+    <include file="V1__create_Produits_table.sql" relativeToChangelogFile="true"/>
+    <include file="V1__create_FournisseurCommandes_table.sql" relativeToChangelogFile="true"/>
+    <include file="V1__create_ProduitsCommandes_table.sql" relativeToChangelogFile="true"/>
+    <include file="V1__create_MouvementStock_table.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -1,5 +1,5 @@
 -- V1__create_fournisseurs_table.sql
-CREATE TABLE fournisseurs (
+CREATE TABLE IF NOT EXISTS fournisseurs (
                               id BIGINT AUTO_INCREMENT PRIMARY KEY,
                               societe VARCHAR(255) NOT NULL,
                               adresse VARCHAR(255) NOT NULL,
