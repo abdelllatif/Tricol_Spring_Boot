@@ -20,9 +20,6 @@ public class ProduitDTO {
     @Min(value = 0, message = "Le prix unitaire doit être supérieur ou égal à 0.")
     private Double prixUnitaire;
 
-    @NotBlank(message = "La catégorie est obligatoire.")
-    @Size(max = 255, message = "La catégorie ne doit pas dépasser 255 caractères.")
-    private String categorie;
 
     @NotNull(message = "Le stock actuel est obligatoire.")
     @Min(value = 0, message = "Le stock actuel doit être supérieur ou égal à 0.")

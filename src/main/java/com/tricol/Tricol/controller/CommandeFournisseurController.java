@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/commandes-fournisseur")
-@CrossOrigin(origins = "*")
+@RequestMapping("/commandes-fournisseur")
 public class CommandeFournisseurController {
 
     private final CommandeFournisseurService service;

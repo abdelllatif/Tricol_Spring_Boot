@@ -12,7 +12,7 @@ public class MouvementStockDTO {
     @NotNull(message = "L'identifiant du produit est obligatoire.")
     private Long produitId;
 
-    private Long commandeId; // optional, peut être null si mouvement non lié à une commande
+    private Long commandeId;
 
     @NotNull(message = "Le type de mouvement est obligatoire.")
     private TypeMouvement typeMouvement;

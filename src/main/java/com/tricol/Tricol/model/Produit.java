@@ -16,7 +16,6 @@ public class Produit {
     private String nom;
     private String description;
     private double prixUnitaire;
-    private String categorie;
     private int stockActuel;
 
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)

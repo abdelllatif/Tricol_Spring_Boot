@@ -1,5 +1,6 @@
 package com.tricol.Tricol.controller;
 
+import com.tricol.Tricol.dto.CommandeProduitDTO;
 import com.tricol.Tricol.model.CommandeProduit;
 import com.tricol.Tricol.service.CommandeProduitService;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/commande-produits")
+@RequestMapping("/commande-produits")
 @CrossOrigin(origins = "*")
 public class CommandeProduitController {
 
