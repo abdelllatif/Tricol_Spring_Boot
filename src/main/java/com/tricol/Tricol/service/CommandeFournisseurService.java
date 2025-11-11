@@ -1,14 +1,20 @@
 package com.tricol.Tricol.service;
 
+import com.tricol.Tricol.dto.CommandeFournisseurDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import com.tricol.Tricol.model.CommandeFournisseur;
 import java.util.List;
 import java.util.Optional;
 
 public interface CommandeFournisseurService {
-    List<CommandeFournisseur> getAllCommandes();
-    Optional<CommandeFournisseur> getCommandeById(Long id);
-    CommandeFournisseur createCommande(CommandeFournisseur commande);
-    CommandeFournisseur updateCommande(Long id, CommandeFournisseur commande);
+
+    List<CommandeFournisseurDTO> getAllCommandes();
+
+    Optional<CommandeFournisseurDTO> getCommandeById(Long id);
+
+    CommandeFournisseurDTO createCommande(CommandeFournisseurDTO dto);
+    CommandeFournisseurDTO updateCommande(Long id, CommandeFournisseurDTO dto);
+    Page<CommandeFournisseurDTO> findAllPaged(String search, String statut, Pageable pageable);
     void deleteCommande(Long id);
 }

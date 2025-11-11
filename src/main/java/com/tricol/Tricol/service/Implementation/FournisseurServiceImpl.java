@@ -35,7 +35,11 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public Page<Fournisseur> findAllPaged(Pageable pageable) {
+    public Page<Fournisseur> findAllPaged(Pageable pageable, String search) {
+        if (search != null && !search.trim().isEmpty()) {
+            return fournisseurRepository.findBySocieteContainingIgnoreCaseOrIceContainingOrVilleContainingIgnoreCase(
+                    search, search, search, pageable);
+        }
         return fournisseurRepository.findAll(pageable);
     }
 
@@ -55,7 +59,6 @@ public class FournisseurServiceImpl implements FournisseurService {
         Optional<Fournisseur> existing = fournisseurRepository.findById(id);
         if (existing.isPresent()) {
             Fournisseur fournisseur = existing.get();
-            // Update fields from DTO
             fournisseur.setSociete(dto.getSociete());
             fournisseur.setAdresse(dto.getAdresse());
             fournisseur.setContact(dto.getContact());

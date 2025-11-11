@@ -41,8 +41,6 @@ public class MouvementStock {
     @Column(name = "cout_unitaire")
     private Double coutUnitaire;
 
-    @Column(length = 500)
-    private String remarque;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

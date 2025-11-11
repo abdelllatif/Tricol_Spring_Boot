@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class MouvementStockDTO {
 
@@ -23,6 +25,5 @@ public class MouvementStockDTO {
     @Min(value = 0, message = "Le coût unitaire doit être supérieur ou égal à 0.")
     private Double coutUnitaire;
 
-    @Size(max = 500, message = "La remarque ne doit pas dépasser 500 caractères.")
-    private String remarque;
+    private LocalDateTime dateMouvement;
 }

@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 public class CommandeProduitDTO {
-    @NotNull(message = "L'identifiant du Commande de Fournisseur est obligatoire.")
-    private Long CommandeFournisseur;
+
 
     @NotNull(message = "L'identifiant du produit est obligatoire.")
     private Long produitId;

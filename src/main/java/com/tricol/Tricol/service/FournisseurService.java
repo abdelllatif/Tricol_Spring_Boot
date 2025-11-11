@@ -14,7 +14,7 @@ public interface FournisseurService {
 
     List<Fournisseur> findAll();
 
-    Page<Fournisseur> findAllPaged(Pageable pageable);
+    Page<Fournisseur> findAllPaged(Pageable pageable, String search);
 
     void delete(Long id);
 

@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "5576e341-949e-40a3-b018-8bd63a0f3b2e",
+		"name": "Tricol Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "42975980"
+	},
+	"item": [
+		{
+			"name": "Fournisseurs",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/fournisseurs"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"societe\": \"Tricol Industries\",\r\n  \"adresse\": \"123 Rue des Textiles, Casablanca\",\r\n  \"contact\": \"Ahmed H.\",\r\n  \"email\": \"contact@tricol.com\",\r\n  \"telephone\": \"0612345678\",\r\n  \"ville\": \"Casablanca\",\r\n  \"ice\": \"12345678900000\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/fournisseurs"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"societe\": \"Fournisseur 2\",\r\n  \"adresse\": \"Rabat\",\r\n  \"contact\": \"Karim\",\r\n  \"email\": \"karim@fournisseur.com\",\r\n  \"telephone\": \"0612345678\",\r\n  \"ville\": \"Rabat\",\r\n  \"ice\": \"987654321\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/fournisseurs/2"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/fournisseurs/2"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "http://localhost:8080/fournisseurs/2"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/fournisseurs/page?page=0&size=2&sort=societe,asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"fournisseurs",
+								"page"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								},
+								{
+									"key": "sort",
+									"value": "societe,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produits",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": \"T-Shirt Homme\",\r\n  \"description\": \"T-shirt en coton\",\r\n  \"prixUnitaire\": 25.0,\r\n  \"stockActuel\": 100\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/produits"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": \"T-Shirt Homme\",\r\n  \"description\": \"T-shirt en coton\",\r\n  \"prixUnitaire\": 25.0,\r\n  \"stockActuel\": 100\r\n}\r\n"
+						},
+						"url": "http://localhost:8080/produits"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/produits/page?page=0&size=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"produits",
+								"page"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": \"T-Shirt Homme Simple\",\r\n  \"description\": \"T-shirt coton \",\r\n  \"prixUnitaire\": 27.0,\r\n  \"stockActuel\": 100\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/produits/1"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"produitId\": 1,\r\n  \"typeMouvement\": \"ENTREE\",\r\n  \"quantite\": 50,\r\n  \"coutUnitaire\": 25.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/produits/1/ajuster-stock"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/produits/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Commandes",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fournisseurId\": 3,\r\n  \"statut\": \"EN_ATTENTE\",\r\n  \"produits\": [\r\n    { \"produitId\": 3, \"quantite\": 5 }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/commandes"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fournisseurId\": 3,\r\n  \"statut\": \"EN_ATTENTE\",\r\n  \"produits\": [\r\n    { \"produitId\": 3, \"quantite\": 5 }\r\n  ]\r\n}\r\n"
+						},
+						"url": "http://localhost:8080/commandes"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fournisseurId\": 3,\r\n  \"statut\": \"EN_ATTENTE\",\r\n  \"produits\": [\r\n    { \"produitId\": 3, \"quantite\": 5 }\r\n  ]\r\n}\r\n"
+						},
+						"url": "http://localhost:8080/commandes/4"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fournisseurId\": 3,\r\n  \"produits\": [\r\n    { \"produitId\": 3, \"quantite\": 5 }\r\n  ],\r\n  \"statut\": \"LIVREE\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/commandes/7"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

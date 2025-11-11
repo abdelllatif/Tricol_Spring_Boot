@@ -2,26 +2,23 @@ package com.tricol.Tricol.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+        import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "commande_produit")
-public class CommandeProduit {
+@Table(name = "stock_cump")
+public class StockCUMP {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "commande_id", nullable = false)
-    @JsonBackReference
-    private CommandeFournisseur commande;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "produit_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference  // ← EMPÊCHE LA BOUCLE INFINIE
     private Produit produit;
 
-    private int quantite;
+
+    @Column(name = "cout_unitaire_cump", nullable = false)
+    private Double coutUnitaireCUMP;
 }
