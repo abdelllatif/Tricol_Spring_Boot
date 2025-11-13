@@ -15,19 +15,16 @@ public class MouvementStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relation avec Produit
     @ManyToOne
     @JoinColumn(name = "produit_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_mouvement_produit"))
     private Produit produit;
 
-    // Relation avec CommandeFournisseur
     @ManyToOne
     @JoinColumn(name = "commande_id",
             foreignKey = @ForeignKey(name = "fk_mouvement_commande"))
     private CommandeFournisseur commande;
 
-    // Enum pour type_mouvement
     @Enumerated(EnumType.STRING)
     @Column(name = "type_mouvement", nullable = false, length = 20)
     private TypeMouvement typeMouvement;

@@ -112,14 +112,12 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
                 mouvement.setDateMouvement(LocalDateTime.now());
                 mouvementStockRepository.save(mouvement);
 
-                // نقص الكمية من المخزون
                 produit.setStockActuel(produit.getStockActuel() - quantite);
                 produitRepository.save(produit);
             }
         }
 
 
-        // حساب المجموع الكلي
         double total = existing.getProduits().stream()
                 .mapToDouble(p -> p.getQuantite() * p.getProduit().getPrixUnitaire())
                 .sum();
@@ -165,7 +163,6 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
             return repository.findAll(pageable).map(mapper::toDTO);
         }
 
-        // Convert statut to enum if present
         StatutCommande statutEnum = null;
         if (statut != null && !statut.isEmpty()) {
             try {

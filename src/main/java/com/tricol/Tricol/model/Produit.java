@@ -21,20 +21,17 @@ public class Produit {
     private double prixUnitaire;
     private int stockActuel;
 
-    // Link to CommandeProduit
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<CommandeProduit> commandeProduits = new ArrayList<>();
 
-    // Link to MouvementStock (1 product -> many movements)
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
 
     private List<MouvementStock> mouvements = new ArrayList<>();
 
-    // Link to StockCUMP (1 product -> 1 CUMP)
     @OneToOne(mappedBy = "produit", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @JsonManagedReference
-    @JsonProperty("stockCUMP")  // Force Jackson à l'inclure
+    @JsonProperty("stockCUMP")
     private StockCUMP stockCUMP;
 
     @ManyToOne

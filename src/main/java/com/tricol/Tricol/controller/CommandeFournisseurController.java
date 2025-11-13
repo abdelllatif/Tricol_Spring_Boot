@@ -43,6 +43,8 @@ public class CommandeFournisseurController {
         CommandeFournisseurDTO created = service.createCommande(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+
+
     @Operation(summary = "Get all commands with pagination support", description = "Retrieve commands with pagination support")
     @GetMapping("/page")
     public ResponseEntity<Map<String, Object>> getAllPaged(

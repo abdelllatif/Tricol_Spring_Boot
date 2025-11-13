@@ -13,4 +13,5 @@
     <include file="V1__create_MouvementStock_table.sql" relativeToChangelogFile="true"/>
     <include file="V1__create_stock_cump _table.sql" relativeToChangelogFile="true"/>
 
+
 </databaseChangeLog>

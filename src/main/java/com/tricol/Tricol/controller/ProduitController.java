@@ -85,6 +85,7 @@ public class ProduitController {
             ProduitDTO updated = produitService.ajusterStock(
                     id,
                     dto.getQuantite(),
+                    dto.getCoutUnitaire(),
                     dto.getTypeMouvement()
             );
             return ResponseEntity.ok(updated);
@@ -92,5 +93,4 @@ public class ProduitController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
 }

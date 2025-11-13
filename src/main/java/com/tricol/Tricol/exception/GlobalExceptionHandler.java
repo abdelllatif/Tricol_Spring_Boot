@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // 2️⃣ Handle generic runtime exceptions
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity
@@ -38,7 +37,6 @@ public class GlobalExceptionHandler {
                 .body(Map.of("type", "Runtime Error", "error", ex.getMessage()));
     }
 
-    // 3️⃣ Handle specific ResponseStatusException (optional)
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException ex) {
         return ResponseEntity
@@ -46,10 +44,9 @@ public class GlobalExceptionHandler {
                 .body(Map.of("type", "Response Status Error", "error", ex.getReason()));
     }
 
-    // 4️⃣ Catch-all for any other unexpected exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleException(Exception ex) {
-        ex.printStackTrace(); // optional, useful for debug
+        ex.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("type", "Internal Server Error", "error", ex.getMessage()));

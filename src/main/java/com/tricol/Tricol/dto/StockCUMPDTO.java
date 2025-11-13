@@ -2,7 +2,6 @@ package com.tricol.Tricol.dto;
 
 import lombok.Data;
 
-// StockCUMPDTO.java
 @Data
 public class StockCUMPDTO {
     private Long id;

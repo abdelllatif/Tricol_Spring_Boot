@@ -66,11 +66,9 @@ public class ProduitServiceImpl implements ProduitService {
     @Override
     @Transactional
     public ProduitDTO create(ProduitDTO dto,Double prixAchat) {
-        // 1️⃣ Create product
         Produit produit = produitMapper.toEntity(dto);
         Produit savedProduit = produitRepository.save(produit);
 
-        // 2️⃣ Create initial CUMP
         StockCUMP stockCUMP = new StockCUMP();
         stockCUMP.setProduit(savedProduit);
         stockCUMP.setCoutUnitaireCUMP(prixAchat);
@@ -104,7 +102,7 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     @Transactional
-    public ProduitDTO ajusterStock(Long produitId, int quantite, TypeMouvement type) {
+    public ProduitDTO ajusterStock(Long produitId, int quantite, double prixAchat, TypeMouvement type) {
         Produit produit = produitRepository.findById(produitId)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé"));
 
@@ -119,27 +117,30 @@ public class ProduitServiceImpl implements ProduitService {
                         return s;
                     });
 
-            // new CUMP = (ancienneCUMP * ancienStock + prixEntrant * quantiteEntrante) / nouveauStock
-            double ancienCUMP = stockCUMP.getCoutUnitaireCUMP();
-            int ancienStock = produit.getStockActuel() - quantite;
-            double nouveauCUMP = (ancienCUMP * ancienStock + produit.getPrixUnitaire() * quantite)
-                    / produit.getStockActuel();
-            stockCUMP.setCoutUnitaireCUMP(nouveauCUMP);
+            List<MouvementStock> mouvements = mouvementStockRepository.findByProduitIdAndTypeMouvement(
+                    produitId, TypeMouvement.ENTREE);
+
+            double sommeValeur = mouvements.stream()
+                    .mapToDouble(m -> m.getQuantite() * m.getCoutUnitaire())
+                    .sum();
+            int sommeQuantite = mouvements.stream()
+                    .mapToInt(MouvementStock::getQuantite)
+                    .sum();
+
+            double cump = (sommeValeur + quantite * prixAchat) / (sommeQuantite + quantite);
+
+            stockCUMP.setCoutUnitaireCUMP(cump);
             stockCUMPRepository.save(stockCUMP);
 
-        } else if (type == TypeMouvement.SORTIE) {
-            if (produit.getStockActuel() < quantite) {
-                throw new IllegalArgumentException("Stock insuffisant !");
-            }
-            produit.setStockActuel(produit.getStockActuel() - quantite);
         }
 
         produitRepository.save(produit);
+
         MouvementStock mouvement = new MouvementStock();
         mouvement.setProduit(produit);
         mouvement.setTypeMouvement(type);
         mouvement.setQuantite(quantite);
-        mouvement.setCoutUnitaire(produit.getPrixUnitaire());
+        mouvement.setCoutUnitaire(prixAchat);
         mouvement.setDateMouvement(LocalDateTime.now());
         mouvementStockRepository.save(mouvement);
 

@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommandeFournisseurRepository extends JpaRepository<CommandeFournisseur, Long> {
-    // Search by statut only
     Page<CommandeFournisseur> findByStatut(StatutCommande statut, Pageable pageable);
 
-    // Search by fournisseur.societe only
     Page<CommandeFournisseur> findByFournisseurSocieteContainingIgnoreCase(String societe, Pageable pageable);
 
-    // ✅ Search by both statut AND fournisseur.societe
     Page<CommandeFournisseur> findByStatutAndFournisseurSocieteContainingIgnoreCase(
             StatutCommande statut,
             String societe,

@@ -13,22 +13,11 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-
-        // Autorise les cookies/session si besoin (garde true)
         config.setAllowCredentials(true);
-
-        // Autorise ton frontend Angular
         config.addAllowedOrigin("http://localhost:4200");
-
-        // Autorise tous les headers (Content-Type, Authorization, etc.)
         config.addAllowedHeader("*");
-
-        // Autorise toutes les méthodes HTTP (GET, POST, PUT, DELETE...)
         config.addAllowedMethod("*");
-
-        // Applique à toutes les URLs du backend
         source.registerCorsConfiguration("/**", config);
-
         return new CorsFilter(source);
     }
 }

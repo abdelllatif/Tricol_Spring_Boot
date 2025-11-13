@@ -26,14 +26,12 @@ public class MouvementStockController {
         this.mouvementStockService = mouvementStockService;
     }
 
-    // 🔹 Récupérer tous les mouvements sans pagination
   @Operation(summary = "Get all mouvements", description = "Retrieve a list of all mouvements")
     @GetMapping
     public List<MouvementStockDTO> getAll() {
         return mouvementStockService.getAllMouvements();
     }
 
-    // 🔹 Récupérer les mouvements d’un produit spécifique
     @Operation(summary = "Get mouvements by produit ID", description = "Retrieve mouvements by produit ID")
     @GetMapping("/produit/{produitId}")
     public List<MouvementStockDTO> getByProduit(@PathVariable Long produitId) {
@@ -60,7 +58,6 @@ public class MouvementStockController {
     }
 
 
-    // 🔹 Récupérer les mouvements paginés d’un produit par son ID
     @Operation(summary = "Get mouvements by produit ID and page", description = "Retrieve mouvements by produit ID and page")
     @GetMapping("/produit/{produitId}/page")
     public ResponseEntity<Map<String, Object>> getByProduitPaged(
@@ -80,7 +77,6 @@ public class MouvementStockController {
         return ResponseEntity.ok(response);
     }
 
-    // 🔹 Exporter en Excel
     @Operation(summary = "Export mouvements to Excel", description = "Export mouvements to Excel")
     @GetMapping("/export")
     public void exportToExcel(HttpServletResponse response) throws IOException {
