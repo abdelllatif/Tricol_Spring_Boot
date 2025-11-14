@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class FournisseurDTO {
-
+    private Long id;
     @NotBlank(message = "Le nom de la société est obligatoire.")
     @Size(max = 255, message = "Le nom de la société ne doit pas dépasser 255 caractères.")
     private String societe;

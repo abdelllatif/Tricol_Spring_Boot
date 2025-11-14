@@ -93,6 +93,23 @@ class ProduitServiceImplTest {
         verify(produitRepository, never()).save(any());
     }
 
+
+//all
+    @Test
+    void findAll_ShouldReturnListOfDTOs() {
+        Produit p = new Produit(); p.setId(1L); p.setNom("P");
+        ProduitDTO dto = new ProduitDTO(); dto.setId(1L); dto.setNom("P");
+
+        when(produitRepository.findAll()).thenReturn(List.of(p));
+        when(produitMapper.toDTO(p)).thenReturn(dto);
+
+        List<ProduitDTO> result = service.findAll();
+
+        assertEquals(1, result.size());
+        assertEquals("P", result.get(0).getNom());
+    }
+
+
     // ===================== UPDATE =====================
     @Test
     void update_WhenExists_ShouldUpdateAndReturnDTO() {
@@ -153,12 +170,12 @@ class ProduitServiceImplTest {
         when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
         when(stockCUMPRepository.findByProduitId(1L)).thenReturn(Optional.empty());
         when(mouvementStockRepository.findByProduitIdAndTypeMouvement(1L, TypeMouvement.ENTREE))
-                .thenReturn(List.of()); // aucun ancien mouvement
+                .thenReturn(List.of());
 
-        service.ajusterStock(1L, 30, 70.0, TypeMouvement.ENTREE);
+        ProduitDTO result = service.ajusterStock(1L, 5, 30.0, TypeMouvement.ENTREE);
 
-        verify(stockCUMPRepository).save(argThat(s -> s.getCoutUnitaireCUMP().equals(70.0)));
-        assertEquals(130, produit.getStockActuel());
+        verify(stockCUMPRepository).save(argThat(s -> s.getCoutUnitaireCUMP() == 30.0));
+        assertEquals(105, produit.getStockActuel()); // 100 + 5
     }
 
     @Test
@@ -246,4 +263,78 @@ class ProduitServiceImplTest {
         assertTrue(result.isPresent());
         assertEquals(produitDTO, result.get());
     }
+
+
+
+
+    //here i will do it
+
+    @Test
+    void ajusterStock_Entree_Valid_ShouldWork() {
+        when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
+        when(stockCUMPRepository.findByProduitId(1L)).thenReturn(Optional.of(new StockCUMP()));
+        when(mouvementStockRepository.findByProduitIdAndTypeMouvement(1L, TypeMouvement.ENTREE))
+                .thenReturn(List.of());
+
+        ProduitDTO result = service.ajusterStock(1L, 10, 50.0, TypeMouvement.ENTREE);
+
+        assertNotNull(result);
+        verify(produitRepository).save(any());
+        verify(stockCUMPRepository).save(any());
+        verify(mouvementStockRepository).save(any());
+    }
+
+
+
+    @Test
+    void ajusterStock_Entree_NullPrix_ShouldThrow() {
+        when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
+        assertThrows(RuntimeException.class,
+                () -> service.ajusterStock(1L, 5, null, TypeMouvement.ENTREE));
+    }
+
+    @Test
+    void ajusterStock_Entree_PrixZero_ShouldThrow() {
+        when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
+        assertThrows(RuntimeException.class,
+                () -> service.ajusterStock(1L, 5, 0.0, TypeMouvement.ENTREE));
+    }
+
+    @Test
+    void ajusterStock_Sortie_Valid_ShouldWork() {
+        when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
+
+        ProduitDTO result = service.ajusterStock(1L, 20, 50.0, TypeMouvement.SORTIE);
+
+        assertEquals(80, produit.getStockActuel());
+        verify(mouvementStockRepository).save(any());
+    }
+
+    @Test
+    void ajusterStock_Sortie_TooMuch_ShouldThrow() {
+        when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
+        assertThrows(RuntimeException.class,
+                () -> service.ajusterStock(1L, 200, 50.0, TypeMouvement.SORTIE));
+    }
+
+    @Test
+    void ajusterStock_NegativeQuantity_ShouldThrow() {
+        when(produitRepository.findById(1L)).thenReturn(Optional.of(produit));
+        assertThrows(RuntimeException.class,
+                () -> service.ajusterStock(1L, -5, 50.0, TypeMouvement.ENTREE));
+    }
+
+    @Test
+    void ajusterStock_ProduitNotFound_ShouldThrow() {
+        when(produitRepository.findById(999L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class,
+                () -> service.ajusterStock(999L, 10, 50.0, TypeMouvement.ENTREE));
+    }
+
+
+
+
+
+
+
 }
