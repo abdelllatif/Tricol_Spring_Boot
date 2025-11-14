@@ -16,5 +16,5 @@ public interface ProduitService {
     ProduitDTO create(ProduitDTO dto,Double prixAchat);
     ProduitDTO update(Long id, ProduitDTO dto);
     void delete(Long id);
-    ProduitDTO ajusterStock(Long produitId, int quantite, double prixAchat, TypeMouvement type);
+    ProduitDTO ajusterStock(Long produitId, int quantite, Double prixAchat, TypeMouvement type);
 }

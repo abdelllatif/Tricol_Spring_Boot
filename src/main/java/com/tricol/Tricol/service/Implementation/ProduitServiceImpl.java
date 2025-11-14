@@ -41,14 +41,16 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     public List<ProduitDTO> findAll() {
-        return produitRepository.findAll().stream().map(produitMapper::toDTO).toList();
+        return produitRepository.findAll().stream()
+                .map(produitMapper::toDTO)
+                .toList();
     }
 
     @Override
     public Page<ProduitDTO> findAllPaged(String nom, Pageable pageable) {
         if (nom != null && !nom.trim().isEmpty()) {
-            return produitRepository.findByNomContainingIgnoreCase(
-                    nom, pageable).map(produitMapper::toDTO);
+            return produitRepository.findByNomContainingIgnoreCase(nom, pageable)
+                    .map(produitMapper::toDTO);
         }
         return produitRepository.findAll(pageable).map(produitMapper::toDTO);
     }
@@ -65,15 +67,20 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     @Transactional
-    public ProduitDTO create(ProduitDTO dto,Double prixAchat) {
+    public ProduitDTO create(ProduitDTO dto, Double prixAchat) {
+        if (prixAchat == null)
+            throw new RuntimeException("Prix achat obligatoire");
+
         Produit produit = produitMapper.toEntity(dto);
         Produit savedProduit = produitRepository.save(produit);
 
+        // StockCUMP initial
         StockCUMP stockCUMP = new StockCUMP();
         stockCUMP.setProduit(savedProduit);
         stockCUMP.setCoutUnitaireCUMP(prixAchat);
         stockCUMPRepository.save(stockCUMP);
 
+        // MouvementStock initial
         MouvementStock mouvement = new MouvementStock();
         mouvement.setProduit(savedProduit);
         mouvement.setTypeMouvement(TypeMouvement.ENTREE);
@@ -99,21 +106,26 @@ public class ProduitServiceImpl implements ProduitService {
                 .orElse(null);
     }
 
-
     @Override
     @Transactional
-    public ProduitDTO ajusterStock(Long produitId, int quantite, double prixAchat, TypeMouvement type) {
+    public ProduitDTO ajusterStock(Long produitId, int quantite, Double prixAchat, TypeMouvement type) {
+        if (quantite <= 0)
+            throw new RuntimeException("Quantité invalide");
+
         Produit produit = produitRepository.findById(produitId)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé"));
 
         if (type == TypeMouvement.ENTREE) {
+            if (prixAchat <= 0)
+                throw new RuntimeException("Prix achat obligatoire pour entrée");
+
             produit.setStockActuel(produit.getStockActuel() + quantite);
 
             StockCUMP stockCUMP = stockCUMPRepository.findByProduitId(produitId)
                     .orElseGet(() -> {
                         StockCUMP s = new StockCUMP();
                         s.setProduit(produit);
-                        s.setCoutUnitaireCUMP(produit.getPrixUnitaire());
+                        s.setCoutUnitaireCUMP(prixAchat);
                         return s;
                     });
 
@@ -128,10 +140,14 @@ public class ProduitServiceImpl implements ProduitService {
                     .sum();
 
             double cump = (sommeValeur + quantite * prixAchat) / (sommeQuantite + quantite);
-
             stockCUMP.setCoutUnitaireCUMP(cump);
             stockCUMPRepository.save(stockCUMP);
 
+        } else if (type == TypeMouvement.SORTIE) {
+            if (quantite > produit.getStockActuel())
+                throw new RuntimeException("Quantité de sortie supérieure au stock");
+
+            produit.setStockActuel(produit.getStockActuel() - quantite);
         }
 
         produitRepository.save(produit);
