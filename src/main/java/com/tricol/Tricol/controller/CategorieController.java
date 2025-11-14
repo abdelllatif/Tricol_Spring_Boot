@@ -53,8 +53,13 @@ public class CategorieController {
     @Operation(summary = "Get category by ID", description = "Retrieve a category by its ID")
     @GetMapping("/{id}")
     public ResponseEntity<CategorieDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+        CategorieDTO dto = service.findById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
     }
+
     @Operation(summary = "Update category", description = "Update an existing category by ID")
     @PutMapping("/{id}")
     public ResponseEntity<CategorieDTO> update(@PathVariable Long id, @Valid @RequestBody CategorieDTO dto) {
